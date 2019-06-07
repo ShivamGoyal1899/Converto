@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 
 // You can use a relative import, i.e. `import 'category_route.dart;'` or
-// a package import, as shown below.
+// a package import.
 // More details at http://dart-lang.github.io/linter/lints/avoid_relative_lib_imports.html
 import 'category_route.dart';
 
@@ -30,6 +30,7 @@ class UnitConverterApp extends StatelessWidget {
           bodyColor: Colors.black,
           displayColor: Colors.grey[600],
         ),
+        // This colors the [InputOutlineBorder] when it is selected
         primaryColor: Colors.grey[500],
         textSelectionHandleColor: Colors.green[500],
       ),
