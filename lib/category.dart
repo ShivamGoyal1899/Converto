@@ -1,4 +1,4 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
+// Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -7,14 +7,14 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'unit.dart';
+import 'package:unit_converter/unit.dart';
 
 /// A [Category] keeps track of a list of [Unit]s.
 class Category {
   final String name;
   final ColorSwatch color;
   final List<Unit> units;
-  final IconData iconLocation;
+  final String iconLocation;
 
   /// Information about a [Category].
   ///

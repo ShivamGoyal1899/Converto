@@ -7,7 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'category.dart';
+import 'package:unit_converter/category.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -161,7 +161,7 @@ class _BackdropState extends State<Backdrop>
       setState(() {
         _controller.fling(
             velocity:
-            _backdropPanelVisible ? -_kFlingVelocity : _kFlingVelocity);
+                _backdropPanelVisible ? -_kFlingVelocity : _kFlingVelocity);
       });
     } else if (!_backdropPanelVisible) {
       setState(() {
@@ -216,7 +216,7 @@ class _BackdropState extends State<Backdrop>
     else
       _controller.fling(
           velocity:
-          _controller.value < 0.5 ? -_kFlingVelocity : _kFlingVelocity);
+              _controller.value < 0.5 ? -_kFlingVelocity : _kFlingVelocity);
   }
 
   Widget _buildStack(BuildContext context, BoxConstraints constraints) {
@@ -273,7 +273,6 @@ class _BackdropState extends State<Backdrop>
       body: LayoutBuilder(
         builder: _buildStack,
       ),
-      resizeToAvoidBottomPadding: false,
     );
   }
 }
