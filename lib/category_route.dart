@@ -1,27 +1,13 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:Converto/api.dart';
+import 'package:Converto/backdrop.dart';
+import 'package:Converto/category.dart';
+import 'package:Converto/category_tile.dart';
+import 'package:Converto/unit.dart';
+import 'package:Converto/unit_converter.dart';
 
-import 'package:unit_converter/api.dart';
-import 'package:unit_converter/backdrop.dart';
-import 'package:unit_converter/category.dart';
-import 'package:unit_converter/category_tile.dart';
-import 'package:unit_converter/unit.dart';
-import 'package:unit_converter/unit_converter.dart';
-
-/// Loads in unit conversion data, and displays the data.
-///
-/// This is the main screen for our app. It retrieves conversion data from a
-/// JSON asset and from an API. It displays the [Categories] in the back panel
-/// of a [Backdrop] widget and shows the [UnitConverter] in the front panel.
-///
-/// While it is named CategoryRoute, a more apt name would be CategoryScreen,
-/// because it is responsible for the UI at the route's destination.
 class CategoryRoute extends StatefulWidget {
   const CategoryRoute();
 
@@ -32,10 +18,6 @@ class CategoryRoute extends StatefulWidget {
 class _CategoryRouteState extends State<CategoryRoute> {
   Category _defaultCategory;
   Category _currentCategory;
-  // Widgets are supposed to be deeply immutable objects. We can update and edit
-  // _categories as we build our app, and when we pass it into a widget's
-  // `children` property, we call .toList() on it.
-  // For more details, see https://github.com/dart-lang/sdk/issues/27755
   final _categories = <Category>[];
   static const _baseColors = <ColorSwatch>[
     ColorSwatch(0xFF6AB7A8, {
@@ -86,22 +68,14 @@ class _CategoryRouteState extends State<CategoryRoute> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    // We have static unit conversions located in our
-    // assets/data/regular_units.json
-    // and we want to also obtain up-to-date Currency conversions from the web
-    // We only want to load our data in once
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
       await _retrieveApiCategory();
     }
   }
 
-  /// Retrieves a list of [Categories] and their [Unit]s
   Future<void> _retrieveLocalCategories() async {
-    // Consider omitting the types for local variables. For more details on Effective
-    // Dart Usage, see https://www.dartlang.org/guides/language/effective-dart/usage
-    final json = DefaultAssetBundle
-        .of(context)
+    final json = DefaultAssetBundle.of(context)
         .loadString('assets/data/regular_units.json');
     final data = JsonDecoder().convert(await json);
     if (data is! Map) {
@@ -128,7 +102,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     });
   }
 
-  /// Retrieves a [Category] and its [Unit]s from an API on the web
   Future<void> _retrieveApiCategory() async {
     // Add a placeholder while we fetch the Currency category using the API
     setState(() {
@@ -141,8 +114,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     });
     final api = Api();
     final jsonUnits = await api.getUnits(apiCategory['route']);
-    // If the API errors out or we have no internet connection, this category
-    // remains in placeholder mode (disabled)
     if (jsonUnits != null) {
       final units = <Unit>[];
       for (var unit in jsonUnits) {
@@ -160,17 +131,12 @@ class _CategoryRouteState extends State<CategoryRoute> {
     }
   }
 
-  /// Function to call when a [Category] is tapped.
   void _onCategoryTap(Category category) {
     setState(() {
       _currentCategory = category;
     });
   }
 
-  /// Makes the correct number of rows for the list view, based on whether the
-  /// device is portrait or landscape.
-  ///
-  /// For portrait, we use a [ListView]. For landscape, we use a [GridView].
   Widget _buildCategoryWidgets() {
     return OrientationBuilder(builder: (context, orientation) {
       if (orientation == Orientation.portrait) {
@@ -179,8 +145,8 @@ class _CategoryRouteState extends State<CategoryRoute> {
             var _category = _categories[index];
             return CategoryTile(
               category: _category,
-              onTap:
-              _category.name == apiCategory['name'] && _category.units.isEmpty
+              onTap: _category.name == apiCategory['name'] &&
+                      _category.units.isEmpty
                   ? null
                   : _onCategoryTap,
             );
@@ -214,9 +180,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
       );
     }
 
-    // Based on the device size, figure out how to best lay out the list
-    // You can also use MediaQuery.of(context).size to calculate the orientation
-    final listView = Padding (
+    final listView = Padding(
       padding: EdgeInsets.only(
         left: 8.0,
         right: 8.0,
@@ -231,7 +195,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
           ? UnitConverter(category: _defaultCategory)
           : UnitConverter(category: _currentCategory),
       backPanel: listView,
-      frontTitle: Text('Unit Converter'),
+      frontTitle: Text('Converto'),
       backTitle: Text('Select a Category'),
     );
   }

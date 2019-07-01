@@ -1,4 +1,4 @@
-package tk.shivamgoyal.unit_converter;
+package co.shivamgoyal.converto;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

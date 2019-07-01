@@ -1,13 +1,7 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-
-import 'package:unit_converter/category.dart';
+import 'package:Converto/category.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -83,8 +77,6 @@ class _BackdropTitle extends AnimatedWidget {
       style: Theme.of(context).primaryTextTheme.title,
       softWrap: false,
       overflow: TextOverflow.ellipsis,
-      // Here, we do a custom cross fade between backTitle and frontTitle.
-      // This makes a smooth animation between the two texts.
       child: Stack(
         children: <Widget>[
           Opacity(
@@ -107,12 +99,6 @@ class _BackdropTitle extends AnimatedWidget {
   }
 }
 
-/// Builds a Backdrop.
-///
-/// A Backdrop widget has two panels, front and back. The front panel is shown
-/// by default, and slides down to show the back panel, from which a user
-/// can make a selection. The user can also configure the titles for when the
-/// front or back panel is showing.
 class Backdrop extends StatefulWidget {
   final Category currentCategory;
   final Widget frontPanel;
@@ -144,9 +130,6 @@ class _BackdropState extends State<Backdrop>
   @override
   void initState() {
     super.initState();
-    // This creates an [AnimationController] that can allows for animation for
-    // the BackdropPanel. 0.00 means that the front panel is in "tab" (hidden)
-    // mode, while 1.0 means that the front panel is open.
     _controller = AnimationController(
       duration: Duration(milliseconds: 300),
       value: 1.0,
@@ -192,9 +175,6 @@ class _BackdropState extends State<Backdrop>
     final RenderBox renderBox = _backdropKey.currentContext.findRenderObject();
     return renderBox.size.height;
   }
-
-  // By design: the panel can only be opened with a swipe. To close the panel
-  // the user must either tap its heading or the backdrop's menu icon.
 
   void _handleDragUpdate(DragUpdateDetails details) {
     if (_controller.isAnimating ||
